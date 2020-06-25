@@ -20,8 +20,11 @@ namespace caixaEletronico.Entidades
                 cedulas.Add(new Cedula(Valor: valores[i], Quantidade: 10));
             }
         }
-
-        public string RelatorioCedulas() // Retorna string com as notas e quantidades de cada disponível
+        /// <summary>
+        /// Retorna string com as notas e quantidades de cada disponível
+        /// </summary>
+        /// <returns></returns>
+        public string RelatorioCedulas()
         {
             string relatorio = default;
             foreach(var ced in cedulas)
@@ -31,7 +34,11 @@ namespace caixaEletronico.Entidades
             return relatorio;
         }
 
-        public string RetornaNotasDisponiveis() // Exibe string com as notas disponíveis no caixa
+        /// <summary>
+        /// Exibe string com as notas disponíveis no caixa
+        /// </summary>
+        /// <returns></returns>
+        public string RetornaNotasDisponiveis()
         {
             var notas = "Cédulas disponíveis: ";
             foreach(var nota in cedulas)
@@ -43,7 +50,10 @@ namespace caixaEletronico.Entidades
             }
             return notas;
         }
-
+        /// <summary>
+        /// Executa o saque no caixa
+        /// </summary>
+        /// <param name="valor"></param>
         public void Saque(int valor)
         {
             if(valor > RelatorioTotalCaixa())
@@ -62,7 +72,7 @@ namespace caixaEletronico.Entidades
                     notas[k] = cel.RetornaQuantidade();
                     k++;
                 }
-
+                
                 for(int i = 4; i >= 0; i--)
                 {
                     // Se quantidade disponível > 0, procede para a subtração do total
@@ -110,7 +120,10 @@ namespace caixaEletronico.Entidades
             }
         }
 
-        // Retorna inteiro contendo o valor total em cédulas no caixa    
+        /// <summary>
+        /// Retorna inteiro contendo o valor total em cédulas no caixa 
+        /// </summary>
+        /// <returns></returns>   
         public int RelatorioTotalCaixa()
         {
             int relatorio = default;
@@ -121,7 +134,12 @@ namespace caixaEletronico.Entidades
             return relatorio;
 
         }
-        public void ReporCedulas(int Posicao, int Quantidade) // Adiciona cédulas no caixa, Posicao = índice da lista de cédulas
+        /// <summary>
+        /// Adiciona cédulas no caixa, Posicao = índice da lista de cédulas
+        /// </summary>
+        /// <param name="Posicao"></param>
+        /// <param name="Quantidade"></param>
+        public void ReporCedulas(int Posicao, int Quantidade) 
         {
             cedulas[Posicao].AlteraQuantidade(Quantidade);
         }

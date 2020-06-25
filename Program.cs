@@ -1,4 +1,6 @@
 ﻿using System;
+using caixaEletronico.Telas;
+using caixaEletronico.Entidades;
 
 namespace caixaEletronico
 {
@@ -6,7 +8,9 @@ namespace caixaEletronico
     {
         static void Main(string[] args)
         {
-            
+            TelaCaixa tela = new TelaCaixa();
+            tela.Executar();
+            Console.ReadKey();
         }
     }
 }

@@ -21,15 +21,27 @@ namespace caixaEletronico.Entidades
             }
         }
 
-        public string RelatorioCedulas()
+        public string RelatorioCedulas() // Retorna string com as notas e quantidades de cada disponível
         {
             string relatorio = default;
             foreach(var ced in cedulas)
             {
                 relatorio = String.Concat(relatorio, $"Cédula: R$ {ced.RetornaValor()}, Quantidade: {ced.RetornaQuantidade()}\n");
-                // Console.WriteLine($"Cédula: R$ {ced.RetornaValor()}, Quantidade: {ced.RetornaQuantidade()}");
             }
             return relatorio;
+        }
+
+        public string RetornaNotasDisponiveis() // Exibe string com as notas disponíveis no caixa
+        {
+            var notas = "Cédulas disponíveis: ";
+            foreach(var nota in cedulas)
+            {
+                if(nota.RetornaQuantidade() > 0)
+                {
+                    notas = String.Concat(notas, $"R$: {nota.RetornaValor()} ");
+                }
+            }
+            return notas;
         }
 
         public void Saque(int valor)
@@ -44,6 +56,7 @@ namespace caixaEletronico.Entidades
                 // Armazena quantidade de cada cédula em caso de falha na transação
                 int[] notas = new int[5];
                 int k = 0;
+                string textoNotas = "Notas: ";
                 foreach(var cel in cedulas)
                 {
                     notas[k] = cel.RetornaQuantidade();
@@ -59,14 +72,16 @@ namespace caixaEletronico.Entidades
                         var t = valor / cedulas[i].RetornaValor();
                         if(t > 0) 
                         {
-                            if(cedulas[i].RetornaQuantidade() >= t)
+                            if(cedulas[i].RetornaQuantidade() >= t) // Se o número de cédulas disponíveis for maior igual que "t", subtrai as cédulas.
                             {
                                 valor = valor % cedulas[i].RetornaValor();
                                 cedulas[i].SubtraiQuantidade(t);
+                                textoNotas = String.Concat(textoNotas, $"R$ {cedulas[i].RetornaValor()}: {t} ");
                             }
-                            else
+                            else // Se o número de cédulas for menor, subtrai as cédulas existentes e segue para a próxima cédula
                             {
                                 valor -= (cedulas[i].RetornaQuantidade() * cedulas[i].RetornaValor());
+                                textoNotas = String.Concat(textoNotas, $"R$ {cedulas[i].RetornaValor()}: {cedulas[i].RetornaQuantidade()} ");
                                 cedulas[i].SubtraiQuantidade(cedulas[i].RetornaQuantidade());
                             }     
                         }
@@ -80,7 +95,7 @@ namespace caixaEletronico.Entidades
                 // Caso o valor restante seja diferente de zero, realiza rollback
                 if(valor != 0)
                 {
-                    Console.WriteLine("Não foi possível realizar a transação!");
+                    Console.WriteLine("Não foi possível realizar essa operação");
                     k = 0;
                     foreach(var cel in cedulas)
                     {
@@ -89,6 +104,9 @@ namespace caixaEletronico.Entidades
                     }
                     Console.ReadKey();
                 }
+                Console.WriteLine(textoNotas);
+                Console.WriteLine("Pressione qualquer tecla para continuar");
+                Console.ReadKey();
             }
         }
 
@@ -103,7 +121,7 @@ namespace caixaEletronico.Entidades
             return relatorio;
 
         }
-        public void ReporCedulas(int Posicao, int Quantidade)
+        public void ReporCedulas(int Posicao, int Quantidade) // Adiciona cédulas no caixa, Posicao = índice da lista de cédulas
         {
             cedulas[Posicao].AlteraQuantidade(Quantidade);
         }

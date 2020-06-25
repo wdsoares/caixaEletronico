@@ -1,6 +1,5 @@
 ﻿using System;
 using caixaEletronico.Telas;
-using caixaEletronico.Entidades;
 
 namespace caixaEletronico
 {

@@ -79,6 +79,7 @@ namespace caixaEletronico.Telas
             var entradaInvalida = true;
             var valor = default(int);
             Console.Clear();
+            Console.WriteLine(caixa.RetornaNotasDisponiveis());
             Console.WriteLine("Quanto você deseja sacar? ");
 
             do

@@ -19,10 +19,9 @@ namespace caixaEletronico.Telas
             var entradaInvalida = true;
             Console.WriteLine(" ---- Caixa Eletrônico ----");
             Console.WriteLine("| 1 | - Sacar");
-            Console.WriteLine("| 2 | - Repor cédulas");
-            Console.WriteLine("| 3 | - Exibir relatório de cédulas");
-            Console.WriteLine("| 4 | - Repor cédulas");
-            Console.WriteLine("| 5 | - Sair");
+            Console.WriteLine("| 2 | - Exibir relatório de cédulas");
+            Console.WriteLine("| 3 | - Repor cédulas");
+            Console.WriteLine("| 4 | - Sair");
             do
             {
                 try
@@ -41,20 +40,18 @@ namespace caixaEletronico.Telas
             switch(opc)
             {
                 case 1:
+                    Saque();
                     Console.Clear();
                     break;
                 case 2:
-                    Console.Clear();
-                    break;
-                case 3:
                     ImprimeRelatorio();
                     Console.Clear();
                     break;
-                case 4:
+                case 3:
                     ReporCedulas();
                     Console.Clear();
                     break;
-                case 5:
+                case 4:
                     Environment.Exit(1);
                     break;
                 default:
@@ -75,6 +72,32 @@ namespace caixaEletronico.Telas
             Console.WriteLine($"{caixa.RelatorioTotalCaixa()},00");
             Console.WriteLine("Pressione qualquer tecla para continuar");
             Console.ReadKey();
+        }
+
+        public void Saque()
+        {
+            var entradaInvalida = true;
+            var valor = default(int);
+            Console.Clear();
+            Console.WriteLine("Quanto você deseja sacar? ");
+
+            do
+            {
+                try
+                {
+                    Console.Write("Opção: ");
+                    valor = Convert.ToInt32(Console.ReadLine());
+                    entradaInvalida = false;
+                }
+                catch
+                {
+                    Console.WriteLine("Entrada inválida, digite novamente!");
+                }
+
+            }while(entradaInvalida);
+
+            caixa.Saque(valor);
+            
         }
 
         public void ReporCedulas()

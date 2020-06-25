@@ -1,3 +1,5 @@
+using System;
+
 namespace caixaEletronico.Entidades
 {
     public class Cedula
@@ -18,6 +20,11 @@ namespace caixaEletronico.Entidades
         public void AlteraQuantidade(int Quantidade)
         {
             this.quantidade += Quantidade;
+        }
+
+        public void SubtraiQuantidade(int Quantidade)
+        {
+            this.quantidade -= Quantidade;
         }
 
         public int RetornaValor()

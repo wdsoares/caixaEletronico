@@ -14,9 +14,10 @@ namespace caixaEletronico.Entidades
 
         private void IniciaCaixa()
         {
+            // Inicia caixa eletrônico com 10 cédulas de cada valor
             for(int i = 0; i < 5; i++)
             {
-                cedulas.Add(new Cedula(Valor: valores[i], Quantidade: 0));
+                cedulas.Add(new Cedula(Valor: valores[i], Quantidade: 10));
             }
         }
 
@@ -33,14 +34,65 @@ namespace caixaEletronico.Entidades
 
         public void Saque(int valor)
         {
-            int resto = 0;
-            bool sucesso = false;
-            for(int i = 4; i >= 0; i--)
+            if(valor > RelatorioTotalCaixa())
             {
-                
+                Console.WriteLine("Caixa não possui saldo suficiente para saque!");
+                Console.ReadKey();
+            }
+            else
+            {
+                // Armazena quantidade de cada cédula em caso de falha na transação
+                int[] notas = new int[5];
+                int k = 0;
+                foreach(var cel in cedulas)
+                {
+                    notas[k] = cel.RetornaQuantidade();
+                    k++;
+                }
+
+                for(int i = 4; i >= 0; i--)
+                {
+                    // Se quantidade disponível > 0, procede para a subtração do total
+                    if(cedulas[i].RetornaQuantidade() > 0)
+                    {
+                        // Divide o valor pelo total de cédulas do valor sendo iterado = Número de cédulas a ser subtraído
+                        var t = valor / cedulas[i].RetornaValor();
+                        if(t > 0) 
+                        {
+                            if(cedulas[i].RetornaQuantidade() >= t)
+                            {
+                                valor = valor % cedulas[i].RetornaValor();
+                                cedulas[i].SubtraiQuantidade(t);
+                            }
+                            else
+                            {
+                                valor -= (cedulas[i].RetornaQuantidade() * cedulas[i].RetornaValor());
+                                cedulas[i].SubtraiQuantidade(cedulas[i].RetornaQuantidade());
+                            }     
+                        }
+                    }
+                    // Interrompe a execução do laço se o valor já estiver subtraído corretamente
+                    if(valor == 0)
+                    {
+                        break;
+                    }
+                }
+                // Caso o valor restante seja diferente de zero, realiza rollback
+                if(valor != 0)
+                {
+                    Console.WriteLine("Não foi possível realizar a transação!");
+                    k = 0;
+                    foreach(var cel in cedulas)
+                    {
+                        cel.AlteraQuantidade(notas[k] - cel.RetornaQuantidade());
+                        k++;
+                    }
+                    Console.ReadKey();
+                }
             }
         }
 
+        // Retorna inteiro contendo o valor total em cédulas no caixa    
         public int RelatorioTotalCaixa()
         {
             int relatorio = default;

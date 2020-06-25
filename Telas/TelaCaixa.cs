@@ -17,7 +17,7 @@ namespace caixaEletronico.Telas
         {
             var opc = default(int);
             var entradaInvalida = true;
-            Console.WriteLine(" ---- Caixa Eletrônico ----");
+            Console.WriteLine(" ---- Caixa ATM ----");
             Console.WriteLine("| 1 | - Sacar");
             Console.WriteLine("| 2 | - Exibir relatório de cédulas");
             Console.WriteLine("| 3 | - Repor cédulas");
